@@ -4,7 +4,7 @@ import React from "react";
 import Banner from "@/app/components/Home/Banner";
 import contentData from "@/components/Content/about.json";
 import ContactInfo from "@/components/Content/ContactInfo.json";
-import Navbar from "../components/Navbar";
+
 
 export const metadata: Metadata = {
   title: {
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   },
   description: contentData.metaDescription,
   alternates: {
-    canonical: contentData.metaCanonical,
+    canonical: `${ContactInfo.baseUrl}about/`,
   },
 };
 const page = () => {

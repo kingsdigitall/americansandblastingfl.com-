@@ -105,7 +105,7 @@ const Banner = ({
   return (
     <div className=" relative  h-[60vh] max-w-[2100px] duration-150 ease-in-out md:mt-0 md:h-[500px] ">
       <Image
-        className="absolute h-[60vh] w-[100%] object-cover  md:h-[500px] "
+        className="absolute h-[60vh] w-[100%] object-cover object-top md:h-[500px] "
         src={`/${image}`}
         alt="Banner_Image"
         width={900}

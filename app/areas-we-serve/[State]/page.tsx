@@ -37,10 +37,11 @@ export function generateMetadata({ params }: SubdomainPageProps) {
     title: ContentData?.metaTitle,
     description: ContentData?.metaDescription,
     alternates: {
-      canonical: `https://${State}.${ContactInfo.host}`,
+      canonical: `${ContactInfo.baseUrl}areas-we-serve/${State}/`,
     },
   };
 }
+
 interface CityData {
   slug: string;
   bannerText: string;
@@ -86,12 +87,12 @@ export default function SubdomainPage({ params }: SubdomainPageProps) {
         <p>{item}</p>
       ))}</p> */}
       <div className="mt-14 grid w-full grid-cols-1 gap-6  px-6 md:mt-28 md:grid-cols-2 md:px-24 items-center">
-        <div className=" h-fit">
+        <div className=" h-full">
           <Image
             height={1000}
             width={1000}
             src={`/${ContentData?.h2Image}`}
-            className="h-[400px] w-full  rounded-lg object-cover shadow-lg"
+            className="h-full w-full  rounded-lg object-cover shadow-lg"
             alt={ContentData?.h2Image.split(".")[0]}
           />
         </div>
@@ -112,7 +113,7 @@ export default function SubdomainPage({ params }: SubdomainPageProps) {
                   Residential {ContactInfo.name} Services
                 </h4>
                 <p>
-                  Professional Residential Dumpster Rental Services in{" "}
+                  Professional Residential {ContactInfo.service} in{" "}
                   {ContentData?.name}, {State.split("-").pop()?.toUpperCase()}.
                 </p>
               </div>
@@ -121,7 +122,7 @@ export default function SubdomainPage({ params }: SubdomainPageProps) {
                   Commercial {ContactInfo.name} Services
                 </h4>
                 <p>
-                  Commercial Dumpster Rental Services in {ContentData?.name}, {State.split("-").pop()?.toUpperCase()}.
+                  Commercial {ContactInfo.service} in {ContentData?.name}, {State.split("-").pop()?.toUpperCase()}.
                 </p>
               </div>
             </div>

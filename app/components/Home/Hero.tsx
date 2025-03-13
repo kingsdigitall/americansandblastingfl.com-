@@ -48,7 +48,7 @@ const Hero = () => {
         </div>
         {/* Section 1 */}
         {/* TYPES */}
-        <TypeOfDumpster />
+        {/* <TypeOfDumpster /> */}
         <Service />
         {/* TYPES*/}
         <Affordable />
@@ -88,7 +88,7 @@ const Hero = () => {
               title="Google Map"
               height="350"
               width={"100%"}
-              src={`https://maps.google.com/maps?q=Volant+Pennsylvania&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+              src={homeData?.mapLink}
               loading="lazy"
             ></iframe>
           </div>

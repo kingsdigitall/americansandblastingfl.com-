@@ -10,14 +10,13 @@ const Affordable = () => {
       <div className="mx-auto flex h-full max-w-7xl flex-col items-center justify-center gap-10 text-center lg:flex-row">
         <div className="lg:w-[40%]">
           <h2 className="text-3xl font-bold text-gray-800">
-            Reliable Dumpster Rental Services for Your Waste Management Needs
+            Trusted Sandblasting Services in Hayward
           </h2>
           <p className="mt-4 text-gray-600">
-            Need a dumpster for your project? All Pro Rolloff offers fast,
-            reliable, and affordable dumpster rental services. Whether it’s for
-            a home renovation, construction site, or large cleanup, we have the
-            perfect dumpster size for your needs. Call now and get your dumpster
-            delivered on time!
+            Need reliable sandblasting solutions? Our team offers fast,
+            professional, and affordable sandblasting services. Whether it’s
+            residential projects, commercial work, or industrial applications,
+            we’ve got you covered. Call now for expert service you can trust!
           </p>
           <a id="cta-id" href={`tel:${contactInfo.tel}`}>
             <button
@@ -35,39 +34,37 @@ const Affordable = () => {
               <GiReceiveMoney className=" text-xl" />
             </div>
             <h3 className="mt-4 text-lg font-bold text-gray-800">
-              Affordable Dumpster Rentals
+              Affordable Sandblasting Solutions
             </h3>
             <p className="mt-2 text-gray-600">
-              We provide cost-effective dumpster rental options to fit any
-              budget, ensuring you get the best value for your waste disposal
-              needs.
+              We offer cost-effective sandblasting services tailored to your
+              budget, ensuring high-quality workmanship at competitive prices.
             </p>
           </div>
-          {/* Various Sizes */}
+          {/* Various Services */}
           <div className="flex w-full max-w-sm flex-col items-center rounded-lg border border-main bg-white p-6 shadow-md">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
               <GrUserWorker className="text-xl text-main" />
             </div>
             <h3 className="mt-4 text-lg font-bold text-gray-800">
-              Multiple Dumpster Sizes
+              Comprehensive Sandblasting Services
             </h3>
             <p className="mt-2 text-gray-600">
-              Choose from a variety of dumpster sizes to suit your project’s
-              specific requirements, from small residential cleanups to
-              large-scale construction waste management.
+              From minor projects to major sandblasting jobs, we provide a full
+              range of services to meet all your needs.
             </p>
           </div>
-          {/* Timely Delivery */}
+          {/* Timely Service */}
           <div className="flex w-full max-w-sm flex-col items-center rounded-lg bg-white p-6 shadow-md">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-minor/20">
               <FaRegThumbsUp className=" text-xl" />
             </div>
             <h3 className="mt-4 text-lg font-bold text-gray-800">
-              On-Time Delivery & Pickup
+              Prompt & Reliable Service
             </h3>
             <p className="mt-2 text-gray-600">
-              Our team ensures prompt dumpster delivery and pickup, so your
-              project stays on schedule without any hassle.
+              Our team ensures quick response times and efficient service,
+              keeping your property clean and well-maintained without delays.
             </p>
           </div>
         </div>

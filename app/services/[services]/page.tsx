@@ -1,5 +1,4 @@
 import Banner from "@/app/components/Home/Banner";
-import NavbarState from "@/app/components/State/NavbarState";
 import React from "react";
 import Servicedata from "@/components/Content/serviceWidgetContent.json";
 import Image from "next/image";
@@ -7,8 +6,7 @@ import Service from "@/app/components/Home/Service";
 import { headers } from "next/headers";
 import content from "@/components/Content/subDomainUrlContent.json";
 import ContactInfo from "@/components/Content/ContactInfo.json";
-import Navbar from "@/app/components/Navbar";
-import TypeOfDumpster from "@/app/components/Widgets/TypeOfDumpster";
+import CtaSimple from "@/app/components/CtaSimple";
 
 export function generateMetadata({ params }: { params: { services: string } }) {
   const serviceData: any = Servicedata.lists.find(
@@ -18,12 +16,14 @@ export function generateMetadata({ params }: { params: { services: string } }) {
   const subdomain = headersList.get("x-subdomain");
   const Data: any = content[subdomain as keyof typeof content];
   return {
-    title: serviceData.title.split("[location]").join(Data?.name || "Volant, PA"),
+    title: serviceData.title
+      .split("[location]")
+      .join(Data?.name || "Hayward, CA"),
     description: serviceData.description
       .split("[location]")
-      .join(Data?.name || "Volant, PA"),
+      .join(Data?.name || "Hayward, CA"),
     alternates: {
-      canonical: `https://${ContactInfo.host}/services/${params.services}`,
+      canonical: `https://${ContactInfo.host}/services/${params.services}/`,
     },
   };
 }
@@ -35,13 +35,14 @@ const page = ({ params }: { params: { services: string } }) => {
   const headersList = headers();
   const subdomain = headersList.get("x-subdomain");
   const Data: any = content[subdomain as keyof typeof content];
+  const locationName = Data?.name || "Hayward, CA";
   return (
     <div className="">
       <Banner
-        h1={serviceData.title.split("[location]").join(Data?.name || "Volant, PA")}
+        h1={serviceData.title.split("[location]").join(locationName)}
         image={"banner.jpg"}
         header=""
-        p1={serviceData.description.split("[location]").join(Data?.name)}
+        p1={serviceData.description.split("[location]").join(locationName)}
       />
       <div className="mx-4 mt-6 print:hidden md:mx-10">
         {/* who */}
@@ -50,26 +51,22 @@ const page = ({ params }: { params: { services: string } }) => {
             <div className="text-3xl font-bold">
               <h2>
                 {" "}
-                {serviceData.title
-                  .split("[location]")
-                  .join(Data?.name || "Volant, PA")}
+                {serviceData.title.split("[location]").join(locationName)}
               </h2>
               <br />
             </div>
             <div
-              className="text-justify"
+              className="text-justify "
               dangerouslySetInnerHTML={{
-                __html: serviceData.para1
-                  .split("[location]")
-                  .join(Data?.name || "Volant, PA"),
+                __html: serviceData.p2.split("[location]").join(locationName),
               }}
             ></div>
           </div>
           <div className="w-full pt-10">
             <Image
-              src={`/full-bill-over-flowing-over-flowing-dumpsters-bein.jpg`}
+              src={`/male-worker-cleaning-screen-frame-with-water-in-.jpg`}
               className="h-80 rounded-lg border object-cover shadow-lg"
-              alt="full-bill-over-flowing-over-flowing-dumpsters-bein"
+              alt="autumn-alley-with-side-fence"
               width={1000}
               height={1000}
             />
@@ -80,17 +77,56 @@ const page = ({ params }: { params: { services: string } }) => {
       {/* <div className="mx-auto my-4 w-80 border p-4">
           <div dangerouslySetInnerHTML={{ __html: serviceData.description }} />
         </div> */}
+      <div className="my-20 bg-main text-white">
+        <div className="text- mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          <h2 className=" text-center text-3xl font-bold">
+            {serviceData.h3.split("[location]").join(locationName)}
+          </h2>
+          <div
+            className="mt-4 flex flex-wrap justify-center gap-4"
+            // dangerouslySetInnerHTML={{
+            //   __html: serviceData.p3
+            //     .split("[location]")
+            //     .join(locationName),
+            // }}
+          >
+            {serviceData.p3.split("|").map((Item: string) => (
+              <p key={Item} className="m-2  rounded-md border  p-4 font-bold">
+                {Item}
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <Service value={subdomain} />
-      <TypeOfDumpster />
+      <div className="my-20">
+        <CtaSimple />
+      </div>
+      {serviceData.seoContent && (
+        <div className="bg-gray-100 text-black ">
+          <div className="mx-auto max-w-4xl px-4 py-12 text-center sm:px-6 lg:px-8">
+            <div
+              className="mt-4 "
+              dangerouslySetInnerHTML={{
+                __html: serviceData.seoContent
+                  .split("[location]")
+                  .join(locationName),
+              }}
+            ></div>
+          </div>
+        </div>
+      )}
+      {/* <TypeOfDumpster /> */}
     </div>
   );
 };
 
 export default page;
 
-// export function generateStaticParams() {
-//   const cityData: any = Servicedata.lists;
-//   return cityData.map((locations: any) => ({
-//     State: locations.slug.toString(),
-//   }));
-// }
+export function generateStaticParams() {
+  const cityData: any = Servicedata.lists;
+  return cityData.map((locations: any) => ({
+    services: locations.slug.toString(),
+  }));
+}

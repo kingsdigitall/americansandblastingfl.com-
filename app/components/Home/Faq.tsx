@@ -25,7 +25,7 @@ const Faq = ({ value = "" }) => {
     ? abbrevation
       ? `${contentData.name}`
       : contentData.name
-    : " Volant";
+    : "Hayward";
   return (
     <div className="mt-14 md:mt-20">
       <h2 className=" text-center text-3xl font-bold text-main">

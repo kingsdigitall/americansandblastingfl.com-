@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   },
   description: contentData.metaDescription,
   alternates: {
-    canonical: contentData.metaCanonical,
+    canonical: `${ContactInfo.baseUrl}contact/`,
   },
 };
 
@@ -133,7 +133,7 @@ const page = () => {
         {/* Map */}
         <div className="mt-10 w-full">
           <iframe
-            src="https://maps.google.com/maps?q=Volant+Pennsylvania&t=&z=13&ie=UTF8&iwloc=&output=embed"
+            src={contentData?.mapLink}
             height="350"
             className="mt-10 w-full rounded-lg border"
             loading="lazy"

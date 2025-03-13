@@ -22,7 +22,7 @@ const NavbarState = () => {
               <Link href="/" aria-label="Home">
                 <Image
                   src="/logo.png"
-                  className=" md:mr-3 w-32 md:w-40 h-full object-cover "
+                  className=" md:mr-3 w-32 md:w-40 h-full object-contain "
                   alt="logo of the company"
                   title=""
                   loading="lazy"
