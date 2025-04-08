@@ -15,7 +15,7 @@ const ProcessWidget = () => {
 
         {content.steps.map((step, index) => (
           <div key={index} className="relative flex flex-col items-center rounded-md bg-white p-4 text-center shadow-lg">
-            <div className="mb-4 text-xl font-bold">{step.title}</div>
+            <h3 className="mb-4 text-xl font-bold">{step.title}</h3>
             <p className="">{step.description}</p>
           </div>
         ))}

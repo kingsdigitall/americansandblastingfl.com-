@@ -11,13 +11,75 @@ import AreaWeServe from "../Widgets/AreaWeServe";
 import content from "@/components/Content/subDomainUrlContent.json";
 import TypeOfDumpster from "../Widgets/TypeOfDumpster";
 import ReviewWidget from "../Widgets/ReviewWidget";
+import ContactInfo from "@/components/Content/ContactInfo.json";
 
 const Hero = () => {
   const cityData: any = content;
   const slugs: any = Object.keys(cityData).map((key) => cityData[key]);
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "Middletown Water Heater Pros",
+    image:
+      `${ContactInfo.logo}` || "",
+    "@id": `${ContactInfo.baseUrl}`,
+    url: `${ContactInfo.baseUrl}`,
+    telephone: `${ContactInfo.No}`,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: ContactInfo.address.split(",")[0].trim(),
+      addressLocality: ContactInfo.location.split(",")[0].trim(),
+      addressRegion: ContactInfo.location.split(",")[1].trim(),
+      postalCode: ContactInfo.zipCode.trim(),
+      addressCountry: "United States",
+    },
+    priceRange: "$$",
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ],
+        opens: "10:30",
+        closes: "12:32",
+      },
+    ],
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: 4.7,
+      reviewCount: 76,
+    },
+    potentialAction: {
+      "@type": "ReserveAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: "#book_now",
+        inLanguage: "en-US",
+        actionPlatform: [
+          "http://schema.org/DesktopWebPlatform",
+          "http://schema.org/MobileWebPlatform",
+        ],
+      },
+      result: {
+        "@type": "Reservation",
+        name: `https://${ContactInfo.host}#Appointment`,
+      },
+    },
+  };
   return (
     <div className="w-screen overflow-hidden  md:flex md:w-full md:flex-col md:items-center md:justify-center">
       <div className="w-full overflow-hidden text-lg  print:hidden  dark:bg-white dark:text-black">
+      <section>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          />
+        </section>
         {/* poster */}
         <Banner
           h1={homeData.h1Banner}
@@ -39,10 +101,10 @@ const Hero = () => {
             <Image
               height={10000}
               width={10000}
-              src={`/${homeData.h2Image}`}
+              src={`${homeData.h2Image}`}
               className=" h-full w-full rounded-lg object-cover shadow-lg"
-              alt={homeData.h2Image.split(".")[0]}
-              title={homeData.h2Image.split(".")[0]}
+              alt={homeData.h2Image.split("/").pop()?.split(".")[0] || "image"}
+              title={homeData.h2Image.split("/").pop()?.split(".")[0] || "image"}
             />
           </div>
         </div>
