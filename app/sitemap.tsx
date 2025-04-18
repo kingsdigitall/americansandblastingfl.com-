@@ -1,48 +1,34 @@
-import { MetadataRoute } from 'next'
- import CityData1 from "@/public/City.json";
- import contentData from "@/components/Content/ContactInfo.json"
+import { MetadataRoute } from "next";
+import CityData1 from "@/public/City.json";
+import contentData from "@/components/Content/ContactInfo.json";
 import data from "@/components/Content/subDomainUrlContent.json";
-
+import serviceData from "@/components/Content/serviceWidgetContent.json";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const BaseUrl = contentData.baseUrl
+  const BaseUrl = contentData.baseUrl;
   const CityData: any = CityData1;
-  const SubDomain:any = Object.keys(data)
-  // const StateUrl: any = State.map((location: { slug: any }) => ({
-  //   url: `/${location.slug.split(" ").join("-").toLowerCase()}`,
-  //   lastModified: new Date(),
-  //   changeFrequency: "weekly",
-  //   priority: 0.9,
-  // }));
-
-  // const CityUrl:any = Object.keys(CityData).flatMap((state) => {
-  //   return CityData[state].map((city: { slug: string; }) => ({
-  //     url: `/${state.toLowerCase()}/${city.slug.split(" ").join("-").toLowerCase()}`,
-  //     lastModified: new Date(),
-  //     changeFrequency: "weekly",
-  //     priority: 0.9,
-  //   }));
-  // });
-
-  
-  const SubDomainURL = SubDomain.map((location :any) => ({
-    url: `https://${location}.${contentData.host}`,
+  const SubDomain: any = Object.keys(data);
+  const ServiceSlug: any = serviceData.lists.map((item:any) => item.slug);
+  const SubDomainURL = SubDomain.map((location: any) => ({
+    url: `${contentData.baseUrl}areas-we-serve/${location}`,
     lastModified: new Date(),
     changeFrequency: "weekly",
     priority: 1,
   }));
+  const ServiceURL = ServiceSlug.map((location: any) => ({
+    url: `${contentData.baseUrl}services/${location}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+  // console.log(ServiceSlug);
+
   return [
     {
       url: `${contentData.baseUrl}`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 1,
-    },
-    {
-      url: `${contentData.baseUrl}services`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
     },
     {
       url: `${contentData.baseUrl}about`,
@@ -56,6 +42,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
-   
-  ]
+    {
+      url: `${contentData.baseUrl}services`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    ...ServiceURL,
+    {
+      url: `${contentData.baseUrl}areas-we-serve`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    ...SubDomainURL,
+  ];
 }

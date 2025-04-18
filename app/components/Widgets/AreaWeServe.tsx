@@ -24,13 +24,12 @@ const AreaWeServe = ({ slugs }: any) => {
           return (
             <div className="" key={index}>
               <Link href={`/areas-we-serve/${City.slug}`} className="text-center">
-                <button
-                  type="button"
+                <h3
                   className="mb-2 me-2 rounded-lg bg-main px-5 py-2.5 text-xs font-medium text-white hover:bg-main/90 focus:outline-none focus:ring-4 focus:ring-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
                 >
                   {City.name}{" "}
                   {City.zipCodes && ` ${City.zipCodes.split("|")[0]}`}
-                </button>
+                </h3>
               </Link>
             </div>
           );

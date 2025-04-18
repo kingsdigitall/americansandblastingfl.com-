@@ -12,7 +12,7 @@ const Footer = () => {
           <div className="mt-8 flex w-fit flex-col justify-center gap-2 px-6  md:w-full  md:flex-row md:items-start   md:justify-around md:px-20 ">
             <div className="mt-4 flex   items-center justify-center text-2xl md:mt-0 md:w-52">
               <Image
-                src={`/${contentData.logo}`}
+                src={ContactInfo.logo}
                 height={10000}
                 width={10000}
                 className="w-full object-cover  "
@@ -21,9 +21,9 @@ const Footer = () => {
               />
             </div>
             <div className="mt-20  flex flex-col items-center   justify-center text-lg md:mt-0  md:w-80">
-              <h2 className=" w-fit border-b-2 border-minor text-3xl font-semibold text-main">
+              <div className=" w-fit border-b-2 border-minor text-3xl font-semibold text-main">
                 Our Company
-              </h2>
+              </div>
               <div className="mt-6 flex  flex-col gap-2">
                 <Link href="/services">
                   <p className="">Services </p>
@@ -37,9 +37,9 @@ const Footer = () => {
               </div>
             </div>
             <div className="mt-20  flex flex-col items-center   justify-center text-lg md:mt-0  md:w-[26rem]">
-              <h2 className=" w-fit border-b-2 border-minor text-3xl font-semibold text-main">
+              <div className=" w-fit border-b-2 border-minor text-3xl font-semibold text-main">
                 Our Services
-              </h2>
+              </div>
               <div className="mt-6 flex  flex-col gap-2  text-center">
                 {data.lists.map(
                   (list) =>
@@ -53,7 +53,7 @@ const Footer = () => {
                 )}
               </div>
             </div>
-            <div className="flex flex-col items-center justify-center shadow-sm md:w-80">
+            <div className="flex flex-col items-center justify-center md:w-80">
               <div className=" w-fit border-b-2 border-minor text-3xl font-semibold text-main">
                 REACH OUT TO US
               </div>
