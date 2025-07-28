@@ -6,9 +6,6 @@ import ContactInfo from "@/components/Content/ContactInfo.json";
 import data from "@/components/Content/hourCtaWidget.json";
 
 const HourCta =async () => {
-  const url = "https://script.googleusercontent.com/a/macros/kings.digital/echo?user_content_key=Btp64fqOzRrAo0yRi_MVQWA5cDqU6JsoG77EGZIqpZkjgTKqioAo-BScVRpYpHEGFEet-krQI-C2T8LI3Xj7LZLOMSADbBW3OJmA1Yb3SEsKFZqtv3DaNYcMrmhZHmUMi80zadyHLKAIsvxQEG1IF9bMs_0a0DyJS4chwneYR2vbsbMe93KyEXQqaQ9mIWZJih-A1PRpSwBrnXGziaoPry3sJaxE4X1j1GVL8YCl13j4kUrNfVdp0W95DTxbN_sjncmRB-O5KJQ&lib=MuDec-kWs6RZnNT4SizQhygr6YihJvvti";
-  const response = await fetch(url);
-  const json = await response.json();
   return (
     <div>
       <div className=" flex w-full  flex-col  items-center py-5 md:py-0 h-full">
