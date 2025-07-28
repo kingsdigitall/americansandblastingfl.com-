@@ -5,7 +5,7 @@ import { FaPhoneSquareAlt } from "react-icons/fa";
 import ContactInfo from "@/components/Content/ContactInfo.json";
 import data from "@/components/Content/hourCtaWidget.json";
 
-const HourCta =async () => {
+const HourCta = () => {
   return (
     <div>
       <div className=" flex w-full  flex-col  items-center py-5 md:py-0 h-full">
