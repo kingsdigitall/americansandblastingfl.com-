@@ -6,7 +6,7 @@ import data from "@/components/Content/serviceWidgetContent.json";
 import ContactInfo from "@/components/Content/ContactInfo.json";
 const Footer = () => {
   return (
-    <div className=" flex w-full items-center justify-center bg-[#eeecec]">
+    <div className=" flex w-full items-center justify-center bg-[#eeecec] pb-16">
       <div className=" flex w-full  items-center justify-center overflow-hidden">
         <div className=" mt-8 flex w-full flex-col  items-center justify-center md:min-w-[650px] ">
           <div className="mt-8 flex w-fit flex-col justify-center gap-2 px-6  md:w-full  md:flex-row md:items-start   md:justify-around md:px-20 ">
