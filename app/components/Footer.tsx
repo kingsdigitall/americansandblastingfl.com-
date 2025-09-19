@@ -1,7 +1,8 @@
+// Footer.tsx
 import Image from "next/image";
 import Link from "next/link";
 import contentData from "@/components/Content/footer.json";
-import { RiMapPin2Fill } from "react-icons/ri";
+import { RiMailFill, RiMapPin2Fill } from "react-icons/ri";
 import data from "@/components/Content/serviceWidgetContent.json";
 import ContactInfo from "@/components/Content/ContactInfo.json";
 const Footer = () => {
@@ -12,7 +13,7 @@ const Footer = () => {
           <div className="mt-8 flex w-fit flex-col justify-center gap-2 px-6  md:w-full  md:flex-row md:items-start   md:justify-around md:px-20 ">
             <div className="mt-4 flex   items-center justify-center text-2xl md:mt-0 md:w-52">
               <Image
-                src={ContactInfo.logo}
+                src={ContactInfo?.logo}
                 height={10000}
                 width={10000}
                 className="w-full object-cover  "
@@ -40,8 +41,8 @@ const Footer = () => {
               <div className=" w-fit border-b-2 border-minor text-3xl font-semibold text-main">
                 Our Services
               </div>
-              <div className="mt-6 flex  flex-col gap-2  text-center">
-                {data.lists.map(
+              <div className="mt-6 flex   flex-col gap-2  text-center">
+                {data.lists.slice(0, 4).map(
                   (list) =>
                     list.title && (
                       <Link href={`/services/${list.slug}`} key={list.title}>
@@ -51,14 +52,18 @@ const Footer = () => {
                       </Link>
                     ),
                 )}
+                <span className="font-semibold text-main">
+                  <Link href={"/services"}>Read More..</Link>
+                </span>
               </div>
             </div>
-            <div className="flex flex-col items-center justify-center md:w-80">
+            <div className="flex flex-col items-center justify-center shadow-sm md:w-80    ">
               <div className=" w-fit border-b-2 border-minor text-3xl font-semibold text-main">
                 REACH OUT TO US
               </div>
-              <div className="mt-5  text-lg">
-                <div className="  flex items-center gap-4">
+
+              <div className="mt-5   text-lg">
+                <div className="  flex items-center  gap-4">
                   <div className="w-4">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -77,17 +82,40 @@ const Footer = () => {
                     </Link>
                   </div>
                 </div>
-                <div className="mt-2">
-                  <div className="flex">
-                    <RiMapPin2Fill className="text-cream mr-5 mt-1 w-8 text-lg" />
-                    {ContactInfo.address}
+                {ContactInfo?.address && (
+                  <div className="mt-2">
+                    <div className="flex">
+                      <RiMapPin2Fill className="text-cream mr-5 mt-1 w-8 text-lg" />
+                      {ContactInfo.address}
+                    </div>
                   </div>
-                </div>
+                )}
+                {ContactInfo.mail && (
+                  <div className="mt-2">
+                    <div className="flex gap-2">
+                      <RiMailFill className="text-cream  mt-1 w-8 text-lg " />
+                      <a
+                        href={`mailto:${ContactInfo.mail}`}
+                        className="!text-start underline"
+                      >
+                        {ContactInfo.mail}
+                      </a>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
-          <div className="mx-9 mt-10 border-t-2 border-minor text-center  text-lg text-main ">
-            <p className="my-2">{contentData.allrightsLine}</p>
+          <div className="mx-9 mt-10 flex border-t-2 border-minor text-center  text-lg text-main ">
+            <p className="my-2">
+              Copyright ©2025 {ContactInfo?.name}, All Right Reserved |
+              <Link
+                href={`${ContactInfo?.baseUrl}sitemap.xml`}
+                className="ml-2 font-semibold underline-offset-8 duration-300 ease-in-out hover:underline hover:underline-offset-2"
+              >
+                Sitemap
+              </Link>
+            </p>
           </div>
         </div>
       </div>

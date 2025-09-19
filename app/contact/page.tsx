@@ -65,18 +65,18 @@ const page = () => {
         </div>
         {/* Content1 */}
 
-        {/* Let's Start a Conversation */}
+         {/* Let's Start a Conversation */}
         <div className="mt-16">
           <div className="text-center text-4xl font-extrabold text-main">
-            Let&apos;s Start a Conversation
+            Have a business enquiry? Contact us today!
           </div>
           <div className="border-double text-center">
-            <a id="cta-id" href={`tel:${ContactInfo.tel}`}>
+            <a id="cta-id" href={`mailto:${ContactInfo.mail}`}>
               <button
                 id="cta-id"
                 className="mt-3 rounded-lg bg-main px-4 py-3 font-bold tracking-wide text-white shadow-lg hover:bg-minor"
               >
-                {ContactInfo.No}
+                {ContactInfo.mail}
               </button>
             </a>
           </div>
