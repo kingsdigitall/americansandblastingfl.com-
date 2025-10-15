@@ -433,7 +433,7 @@ export default function SubdomainPage({ params }: SubdomainPageProps) {
 
       {/* Area we Serve */}
       {/* Neighborhood */}
-      {/* {ContentData?.neighbourhoods ? (
+      {ContentData?.neighbourhoods ? (
         <div className="">
           <div className="block border px-4 md:hidden">
             <ZipAndNeighAccordian
@@ -449,23 +449,35 @@ export default function SubdomainPage({ params }: SubdomainPageProps) {
               </p>
             </div>
             <div className="mx-10 mt-4 flex h-fit w-auto flex-wrap justify-center gap-4">
-              {ContentData?.neighbourhoods.split("|").map((item: any) => (
-                <div className="" key={item}>
-                  <a
-                    target="_blank"
-                    href={`https://www.google.com/maps/search/?api=1&query=${item}, ${ContentData?.slug},`}
-                  >
-                    <p className="border bg-minor px-2 py-1 text-white duration-100 ease-in-out hover:text-main">
-                      {item}
-                    </p>
-                  </a>
-                </div>
-              ))}
+              <div className="mx-10 mt-4 flex h-fit w-auto flex-wrap justify-center gap-4">
+                {ContentData?.neighbourhoods
+                  ?.split("|")
+                  .filter(
+                    (item: string) => item.trim() !== ContentData?.name?.trim(),
+                  )
+                  .map((item: string) => (
+                    <div className="" key={item}>
+                      <Link
+                        href={`/areas-we-serve/${State}/${
+                          item
+                            .trim()
+                            .toLowerCase()
+                            .replace(/\.+$/, "") // remove trailing dots
+                            .replace(/\s+/g, "-") // replace spaces with hyphens
+                        }`}
+                      >
+                        <p className="border bg-minor px-2 py-1 text-white duration-100 ease-in-out hover:text-main">
+                          {item}
+                        </p>
+                      </Link>
+                    </div>
+                  ))}
+              </div>
             </div>
           </div>
         </div>
-      ) : null} */}
-      {/* Neighborhood */}
+      ) : null} 
+      {/* Neighborhood
       {/* Zip */}
       {/* {ContentData?.zipCodes ? (
         <div className="">
