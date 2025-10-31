@@ -6,10 +6,13 @@
     "host": "americansandblastingfl.com",
     "name": "Hayward Sandblasting Services Experts",
     "address": "18306 Industrial Blvd Hayward, CA 94545",
-    "service":"Sandblasting Services",
+    "service": "Sandblasting Services",
     "location": "Hayward, CA",
     "zipCode": "94545",
     "bannerImage": "https://ik.imagekit.io/serviceproviders/americansandblastingfl.com/banner.jpg?updatedAt=1744106889577",
-    "logo": "https://ik.imagekit.io/serviceproviders/americansandblastingfl.com/logo.png?updatedAt=1744106889291"
+    "logoImage": "https://ik.imagekit.io/serviceproviders/americansandblastingfl.com/logo.png?updatedAt=1744106889291",
+    "favicon": "",
+    "googleAnalytics": "",
+    "main": "#ed3f21",
+    "minor": "#a02a16"
 }
-

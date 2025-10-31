@@ -1,21 +1,34 @@
-import { Metadata } from 'next';
-import Hero from './components/Home/Hero'
-import homeData from "@/components/Content/home.json"
-import ContactInfo from "@/components/Content/ContactInfo.json"
+import Hero from "./components/Home/Hero";
+import contactContent from "@/app/Data/content";
 
-export const metadata: Metadata = {
-  title: {
-    absolute: homeData.metaTitle,
-  },
-  description: homeData.metaDescription,
-  alternates: {
-    canonical: `https://${ContactInfo.host}`,
-  },
-};
+const ContactInfo: any = contactContent.contactContent;
+const homeData: any = contactContent.homePageContent;
+
+export async function generateMetadata() {
+  return {
+    title: homeData.metaTitle,
+    description: `${homeData?.metaDescription
+      ?.split("[location]")
+      .join(ContactInfo.location)
+      ?.split("[phone]")
+      .join(ContactInfo.No)}.`,
+    alternates: {
+      canonical: `https://${ContactInfo.host}`,
+    },
+  };
+}
+
 export default function Home() {
+  const newData = JSON.parse(
+    JSON.stringify(homeData)
+      .split("[location]")
+      .join(ContactInfo.location)
+      .split("[phone]")
+      .join(ContactInfo.No),
+  );
   return (
-   <div className=""> 
-    <Hero/>
-   </div>
-  )
+    <div className="">
+      <Hero />
+    </div>
+  );
 }

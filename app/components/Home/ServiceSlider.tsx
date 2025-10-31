@@ -2,10 +2,10 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
-import data from "@/components/Content/serviceWidgetContent.json";
+import data1 from "@/components/Content/servicePage.json";
 
 const ServiceSlider = () => {
-  const testimonials = data;
+  const data = data1.serviceData;
 
   const settings = {
     className: "center",
@@ -51,7 +51,7 @@ const ServiceSlider = () => {
   return (
     <div className="relative px-4  py-5">
       {data.lists.map((item: any) => (
-        <div className=" rounded-2xl border p-3 shadow-xl" key={item?.title}>
+        <div className=" rounded-2xl border   p-3 shadow-xl" key={item?.title}>
           <div className="flex items-center justify-start gap-4">
             <div className="h-14 w-14 overflow-hidden rounded-full object-cover">
               <Image
@@ -65,11 +65,27 @@ const ServiceSlider = () => {
               />
             </div>
             <h2 className="w-[75%]  text-lg font-bold text-main">
-              {item.title}
+              {item.title}{" "}
             </h2>
           </div>
         </div>
       ))}
+      {/* <Slider {...settings} >
+      {
+        testimonials.map((item:any ,index:number) => (
+          
+          <div className="p-3 h-96 lg:h-80 mb-10  relative " key={index+1}>
+            <div className="border border-main flex flex-col justify-center items-center h-full p-2 rounded-sm shadow-xl py-4">
+            <h3 className="text-2xl font-bold text-main  w-full">{item.title}</h3>
+            <p className="mt-4 ">{item.description}</p>
+            </div>
+            
+            
+          </div>
+        ))
+      }
+      
+    </Slider> */}
     </div>
   );
 };

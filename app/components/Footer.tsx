@@ -1,34 +1,51 @@
-// Footer.tsx
 import Image from "next/image";
 import Link from "next/link";
-import contentData from "@/components/Content/footer.json";
 import { RiMailFill, RiMapPin2Fill } from "react-icons/ri";
-import data from "@/components/Content/serviceWidgetContent.json";
-import ContactInfo from "@/components/Content/ContactInfo.json";
+import { headers } from "next/headers";
+import subdomainContent from "@/app/Data/FinalContent";
+import contactContent from "@/app/Data/content";
+
+const SubDomainData: any = subdomainContent.subdomainData;
+const ContactInfo: any = contactContent.contactContent;
+const content: any = contactContent.servicePageContent;
+
 const Footer = () => {
+  const headersList = headers();
+  const subdomain = headersList.get("x-subdomain") as string | null;
+  const data = content?.serviceData;
+  const subdomainData = subdomain
+    ? SubDomainData[subdomain as keyof typeof SubDomainData]
+    : undefined;
+  const address =
+    subdomainData && "address" in subdomainData
+      ? (subdomainData as { address: string }).address
+      : ContactInfo.address;
   return (
-    <div className=" flex w-full items-center justify-center bg-[#eeecec] pb-16">
+    <div className=" flex w-full items-center justify-center bg-[#eeecec]">
       <div className=" flex w-full  items-center justify-center overflow-hidden">
-        <div className=" mt-8 flex w-full flex-col  items-center justify-center md:min-w-[650px] ">
-          <div className="mt-8 flex w-fit flex-col justify-center gap-2 px-6  md:w-full  md:flex-row md:items-start   md:justify-around md:px-20 ">
-            <div className="mt-4 flex   items-center justify-center text-2xl md:mt-0 md:w-52">
+        <div className=" flex w-full flex-col items-center  justify-center pb-14 md:mt-8 md:min-w-[650px]">
+          <div className="flex w-fit flex-col justify-center gap-2 px-6 md:mt-8  md:w-full  md:flex-row md:items-start md:justify-around md:px-20 ">
+            <div className="mt-4 flex h-32 items-center justify-center text-2xl md:mt-0  md:h-auto md:w-52">
               <Image
-                src={ContactInfo?.logo}
+                src={ContactInfo?.logoImage}
                 height={10000}
                 width={10000}
-                className="w-full object-cover  "
-                alt={contentData.logo.split(".")[0]}
-                title={contentData.logo.split(".")[0]}
+                className="w-full object-cover "
+                alt={
+                  ContactInfo.logoImage.split("/").pop()?.split(".")[0] ||
+                  "image"
+                }
+                title={
+                  ContactInfo.logoImage.split("/").pop()?.split(".")[0] ||
+                  "image"
+                }
               />
             </div>
-            <div className="mt-20  flex flex-col items-center   justify-center text-lg md:mt-0  md:w-80">
+            <div className="mt-10  flex flex-col items-center   justify-center text-lg md:mt-0  md:w-80">
               <div className=" w-fit border-b-2 border-minor text-3xl font-semibold text-main">
                 Our Company
               </div>
               <div className="mt-6 flex  flex-col gap-2">
-                <Link href="/services">
-                  <p className="">Services </p>
-                </Link>
                 <Link href="/about">
                   <p className="">About </p>
                 </Link>
@@ -40,27 +57,34 @@ const Footer = () => {
                 </Link>
               </div>
             </div>
-            <div className="mt-20  flex flex-col items-center   justify-center text-lg md:mt-0  md:w-[26rem]">
+            <div className="mt-10  flex flex-col items-center   justify-center text-lg md:mt-0  md:w-[26rem]">
               <div className=" w-fit border-b-2 border-minor text-3xl font-semibold text-main">
                 Our Services
               </div>
-              <div className="mt-6 flex   flex-col gap-2  text-center">
+              <div className="mt-6 flex flex-col gap-2 text-center">
                 {data.lists.slice(0, 4).map(
-                  (list) =>
+                  (list: any) =>
                     list.title && (
                       <Link href={`/services/${list.slug}`} key={list.title}>
                         <p className="">
-                          {list.title.replace(" in [location]", " ")}
+                          {list.title?.replace(
+                            `in ${ContactInfo.location}`,
+                            "",
+                          )}
                         </p>
                       </Link>
                     ),
                 )}
-                <span className="font-semibold text-main">
-                  <Link href={"/services"}>Read More..</Link>
-                </span>
+                {data.lists.length > 4 && (
+                  <Link href="/services">
+                    <p className="font-semibold text-main underline">
+                      Show More
+                    </p>
+                  </Link>
+                )}
               </div>
             </div>
-            <div className="flex flex-col items-center justify-center  md:w-80    ">
+            <div className="flex flex-col items-center justify-center shadow-sm md:w-80    ">
               <div className=" w-fit border-b-2 border-minor text-3xl font-semibold text-main">
                 REACH OUT TO US
               </div>
@@ -85,11 +109,11 @@ const Footer = () => {
                     </Link>
                   </div>
                 </div>
-                {ContactInfo?.address && (
-                  <div className="mt-2">
-                    <div className="flex">
-                      <RiMapPin2Fill className="text-cream mr-5 mt-1 w-8 text-lg" />
-                      {ContactInfo.address}
+                {address && (
+                  <div className="mt-2 ">
+                    <div className="flex gap-4">
+                      <RiMapPin2Fill className="text-cream  mt-1 w-8 text-lg" />
+                      <div className="text-start"> {address}</div>
                     </div>
                   </div>
                 )}
@@ -122,7 +146,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      {/*  cursor-default   bg-[#151627] grid place-items-center w-screen md:w-full min-w-[375px] */}
     </div>
   );
 };

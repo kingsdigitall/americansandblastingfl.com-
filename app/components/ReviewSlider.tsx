@@ -21,49 +21,49 @@ const ReviewSlider: React.FC<ReviewSliderProps> = ({data}:any) => {
       "id": 1,
       "name": "Michael Peterson",
       "content":
-        "When we decided to replace our old wooden fence, we didn’t know where to start. Simcoe Fences guided us through every step, from selecting the perfect design to the final installation. Now our backyard looks amazing."
+        "We had our old furnace replaced, and the experience was outstanding. The team walked us through the process, answered all our questions, and made sure everything was working perfectly. Our home has never felt more comfortable, and we’ve noticed a nice drop in our energy bills."
     },
     {
       "id": 2,
       "name": "Samantha Russo",
       "content":
-        "After a storm damaged our fence, we needed immediate help to secure our property. Simcoe Fences responded quickly and sent a team out the same day. They repaired the fence beautifully and even reinforced areas to prevent future issues. Their prompt and efficient service gave us peace of mind."
+        "Our air conditioner broke down in the middle of a heatwave, and they came out right away. The technician was professional, quick, and had everything fixed in no time. We were impressed by the service and grateful for how fast they got things up and running again."
     },
     {
       "id": 3,
       "name": "David Linwood",
       "content":
-        "We wanted a fence that would enhance our home’s curb appeal while providing privacy. Simcoe Fences delivered a stunning, custom vinyl fence that’s both durable and stylish. Their attention to detail and use of high-quality materials stood out. We've received so many compliments from neighbors!"
+        "Upgrading to a more energy-efficient HVAC system felt overwhelming at first, but the installers made it a breeze. They helped us choose the best option for our needs and handled the installation smoothly. The difference in our home’s comfort level—and on our utility bills—is incredible."
     },
     {
       "id": 4,
       "name": "Jessica Marquez",
       "content":
-        "I had a specific idea for a decorative fence that would complement my garden. Simcoe Fences took my vision and brought it to life. They even suggested improvements I hadn’t thought of, and the result was beyond what I imagined. It’s truly a showpiece in my yard!"
+        "We kept having issues with our heating system randomly shutting off. Their technician arrived on time, found the problem right away, and didn’t just fix it—he explained what was wrong and how to prevent it in the future. It was an honest and efficient service."
     },
     {
       "id": 5,
       "name": "Robert Fletcher",
       "content":
-        "As a landlord, I need reliable contractors who provide great value. Simcoe Fences replaced the fencing around one of my rental properties quickly and at a fair price. The tenants were thrilled with the upgrade, and I’m confident it will last for years."
+        "When our AC unit started leaking, we didn’t know what to do. Thankfully, Simpson Salute HVAC responded immediately, even on a weekend. The technician was friendly, efficient, and explained what had gone wrong. We’re grateful for the peace of mind they provided."
     },
     {
       "id": 6,
       "name": "Emily Sanders",
       "content":
-        "We were hesitant about hiring a fencing company after a bad experience elsewhere. Simcoe Fences changed our perspective completely. They communicated clearly, showed up on time, and cleaned up thoroughly after the job was done. It’s rare to find such dependable professionals!"
+        "Our furnace was making loud, unsettling noises, and I was worried it would stop working. The technician diagnosed the issue right away and made the necessary repairs. Now everything runs smoothly and quietly. The service was fast, professional, and left me feeling reassured."
     },
     {
       "id": 7,
       "name": "Christopher Nolan",
       "content":
-        "Our top priority was securing our yard for our dogs. Simcoe Fences designed and installed a fence that not only keeps our pets safe but also complements our landscape. Their team even adjusted the gate height to accommodate our smallest pup. Truly a pet-friendly company!"
+        "From scheduling to service, Simpson Salute HVAC exceeded my expectations. They did a full HVAC tune-up, and I could tell they took their time to get it right. My system runs smoother than ever, and I’ve already noticed improved air quality in my home."
     },
     {
       "id": 8,
       "name": "Alexandra Bennett",
       "content":
-        "It's been five years since Simcoe Fences installed our aluminum fence, and it still looks as good as new. Their craftsmanship and material quality are unmatched. We recently called them back for a small addition, and they delivered the same excellent service."
+        "Our office building had heating problems during a busy work week, and we needed a quick solution. The repair team was fantastic—efficient, respectful of our work environment, and had everything running again with minimal interruption. We couldn’t have asked for a better experience."
     }
   ]
  
