@@ -2,16 +2,20 @@ import Image from "next/image";
 import Banner from "./Banner";
 import WhyChoose from "./WhyChoose";
 import HourCta from "./HourCta";
-import homeData from "@/components/Content/home.json";
 import Faq from "./Faq";
 import Service from "@/app/components/Home/Service";
 import Affordable from "./Affordable";
 import ProcessWidget from "../Widgets/ProcessWidget";
 import AreaWeServe from "../Widgets/AreaWeServe";
-import content from "@/components/Content/subDomainUrlContent.json";
-import TypeOfDumpster from "../Widgets/TypeOfDumpster";
 import ReviewWidget from "../Widgets/ReviewWidget";
-import ContactInfo from "@/components/Content/ContactInfo.json";
+import Types from "../Widgets/Types";
+
+import contactContent from "@/app/Data/content";
+import SubdomainContent from "@/app/Data/FinalContent";
+
+const ContactInfo: any = contactContent.contactContent;
+const homeData: any = contactContent.homePageContent;
+const content: any = SubdomainContent.subdomainData;
 
 const Hero = () => {
   const cityData: any = content;
@@ -21,7 +25,7 @@ const Hero = () => {
     "@type": "LocalBusiness",
     name: `${ContactInfo.name}`,
     image:
-      `${ContactInfo.logo}` || "",
+      `${ContactInfo?.logoImage}` || "",
     "@id": `${ContactInfo.baseUrl}`,
     url: `${ContactInfo.baseUrl}`,
     telephone: `${ContactInfo.No}`,
@@ -110,7 +114,7 @@ const Hero = () => {
         </div>
         {/* Section 1 */}
         {/* TYPES */}
-        {/* <TypeOfDumpster /> */}
+        <Types />
         <Service />
         {/* TYPES*/}
         <Affordable />
@@ -120,9 +124,9 @@ const Hero = () => {
         <ProcessWidget />
         {/* Area we Serve */}
         <div className="mx-auto mt-14 max-w-[95rem] md:mt-20">
-          <div className="mt-10 flex h-96 rounded-xl  bg-minor  shadow-2xl md:mb-10">
+          <div className="mt-10 flex h-96 rounded-xl  bg-white   shadow-inner shadow-minor md:mb-10">
             <div className="md:w-[87%]">
-              <div className="mt-4 p-1 text-center text-2xl font-bold text-white">
+              <div className="mt-4 p-1 text-center text-2xl font-bold text-main">
                 We Proudly Serve{" "}
                 <span className="text-mai">The Following Areas</span>
               </div>
@@ -138,7 +142,7 @@ const Hero = () => {
         <div className="mt-14 md:mt-20"></div>
         {/* CTA */}
         {/* FAQ */}
-        <Faq />
+        <Faq  data={homeData.faq}/>
         {/* FAQ */}
         {/* Review */}
         <ReviewWidget />
@@ -150,7 +154,7 @@ const Hero = () => {
               title="Google Map"
               height="350"
               width={"100%"}
-              src={homeData?.mapLink}
+              src={`https://maps.google.com/maps?q=Louisville+Kentucky&t=&z=13&ie=UTF8&iwloc=&output=embed`}
               loading="lazy"
             ></iframe>
           </div>

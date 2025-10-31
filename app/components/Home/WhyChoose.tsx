@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import React from 'react'
 
 const WhyChoose = ({data}:any) => {
@@ -6,7 +5,6 @@ const WhyChoose = ({data}:any) => {
   return (
     <div className="mt-20 ">
     <h2 className="text-center text-3xl font-extrabold">
- 
       <span className="text-main">{data.title}</span>
     </h2>
     {/* -----------------------------------------card Start------------------------ */}

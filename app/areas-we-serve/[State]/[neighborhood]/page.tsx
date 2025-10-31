@@ -1,20 +1,37 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import Banner from "@/app/components/Home/Banner";
 import Service from "@/app/components/Home/Service";
-import ContactInfo from "@/components/Content/ContactInfo.json";
-import ZipAndNeighAccordian from "@/app/components/Home/ZipAndNeighAccordian";
 import Faq from "@/app/components/Home/Faq";
 import HourCta from "@/app/components/Home/HourCta";
 import ReviewWidget from "@/app/components/Widgets/ReviewWidget";
 import AreaWeServe from "@/app/components/Widgets/AreaWeServe";
-import NavbarState from "@/app/components/State/NavbarState";
-import content from "@/components/Content/subDomainUrlContent.json";
-const subdomainContent: any = content;
+import Affordable from "@/app/components/Home/Affordable";
 import ProcessWidget from "@/app/components/Widgets/ProcessWidget";
+import Link from "next/link";
+import ZipAndNeighAccordian from "@/app/components/Home/ZipAndNeighAccordian";
+import Types from "@/app/components/Widgets/Types";
+// import Service from "@/app/Components/Service";
+
+import contactContent from "@/app/Data/content";
+import subdomainContent from "@/app/Data/FinalContent";
+import { headers } from "next/headers";
+
+const ContactInfo: any = contactContent.contactContent;
+const home: any = contactContent.homePageContent;
+
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
+// Function to fetch subdomain data from API
+async function getSubdomainData() {
+  const headersList = headers();
+  const proto: any = headersList.get("x-forwarded-proto") || "http";
+  const host = headersList.get("host");
+  const baseUrl = `${proto}://${host}`;
+  const res = await fetch(`${baseUrl}/api/subdomains`, { cache: "no-store" });
+  return res.json().catch(() => ({}));
+}
 
 interface NeighborhoodPageProps {
   params: { State: string; neighborhood: string };
@@ -78,34 +95,36 @@ export async function generateMetadata({ params }: NeighborhoodPageProps) {
   // Fetch content from API
   let content: any = {};
   try {
-    const data = subdomainContent;
-    if (data) {
-      content = data;
+    const data = await getSubdomainData();
+    if (data && data.subdomains) {
+      // Convert array back to object with slug as key
+      content = data.subdomains.reduce((acc: any, item: any) => {
+        if (item.slug) {
+          acc[item.slug] = item;
+        }
+        return acc;
+      }, {});
     }
   } catch (e) {
     // Fallback to static content if API fails
-    content = subdomainContent;
+    content = subdomainContent.subdomainData;
   }
   const cityData: any = content;
   const parentCityData = cityData[State];
-
-  if (!parentCityData) {
-    return {
-      title: "Page Not Found",
-      description: "The requested page could not be found.",
-    };
-  }
 
   // Format neighborhood name for display
   const neighborhoodName = neighborhood
     .split("-")
     .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+  const staetName = State.split("-")
+    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 
   // Create neighborhood-specific metadata using parent city data
   const title =
     parentCityData?.metaTitle
-      ?.split(parentCityData.name)
+      ?.split(content[State].name)
       .join(neighborhoodName)
       ?.split("[phone]")
       .join(ContactInfo.No) ||
@@ -113,7 +132,7 @@ export async function generateMetadata({ params }: NeighborhoodPageProps) {
 
   const description =
     parentCityData?.metaDescription
-      ?.split(parentCityData.name)
+      ?.split(content[State].name)
       .join(neighborhoodName)
       ?.split("[phone]")
       .join(ContactInfo.No) ||
@@ -123,7 +142,7 @@ export async function generateMetadata({ params }: NeighborhoodPageProps) {
     title,
     description,
     alternates: {
-      canonical: `https://${State}.${ContactInfo.host}/${neighborhood}/`,
+      canonical: `https://${ContactInfo.host}/areas-we-serve/${State}/${neighborhood}/`,
     },
   };
 }
@@ -136,17 +155,24 @@ export default async function NeighborhoodPage({
   // Fetch content from API
   let content: any = {};
   try {
-    const data = subdomainContent;
-    if (data) {
-      content = data;
+    const data = await getSubdomainData();
+    if (data && data.subdomains) {
+      // Convert array back to object with slug as key
+      content = data.subdomains.reduce((acc: any, item: any) => {
+        if (item.slug) {
+          acc[item.slug] = item;
+        }
+        return acc;
+      }, {});
     }
   } catch (e) {
     // Fallback to static content if API fails
-    content = subdomainContent;
+    content = subdomainContent.subdomainData;
   }
 
   const cityData: any = content;
-  
+  const abbrevations: any = State.split("-").pop();
+
   // Validate subdomain
   const subDomain = Object.keys(cityData);
   const validSubdomains = subDomain;
@@ -156,10 +182,6 @@ export default async function NeighborhoodPage({
 
   // Get parent city data
   const parentCityData = cityData[State];
-
-  if (!parentCityData) {
-    notFound();
-  }
 
   // Validate neighborhood exists in the city's neighborhoods list
   if (!parentCityData?.neighbourhoods) {
@@ -172,12 +194,7 @@ export default async function NeighborhoodPage({
       n.trim().toLowerCase().replace(/\.+$/, "").replace(/\s+/g, "-"),
     );
 
-  const neighborhoodMatch = validNeighborhoods.find((n: string) => 
-    n === neighborhood || 
-    n === neighborhood.toLowerCase()
-  );
-
-  if (!neighborhoodMatch) {
+  if (!validNeighborhoods.includes(neighborhood)) {
     notFound();
   }
 
@@ -186,7 +203,9 @@ export default async function NeighborhoodPage({
     .split("-")
     .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
-  
+  const stateName = State.split("-")
+    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
   const ContentData = JSON.parse(
     JSON.stringify(parentCityData)
       .split("[location]")
@@ -205,10 +224,6 @@ export default async function NeighborhoodPage({
     .filter((key) => key !== State)
     .map((key) => cityData[key]);
 
-  // Get state abbreviation
-  const stateAbbreviation = State.split("-").pop()?.toUpperCase() || "";
-  const fullStateName = stateName[stateAbbreviation] || State;
-
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -216,12 +231,12 @@ export default async function NeighborhoodPage({
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
         name: `${ContactInfo.name}`,
-        image: `${ContactInfo.logo}`,
+        image: `${ContactInfo.logoImage}`,
         address: {
           "@type": "PostalAddress",
-          streetAddress: `${fullStateName} ${ContactInfo.service}`,
-          addressLocality: `${ContentData?.name}, ${stateAbbreviation}`,
-          addressRegion: fullStateName,
+          streetAddress: ` ${ContactInfo.name}, ${ContentData?.name}, ${abbrevations.toUpperCase()}`,
+          addressLocality: `${ContentData?.name}, ${abbrevations.toUpperCase()}`,
+          addressRegion: stateName[abbrevations.toUpperCase()],
           postalCode: "",
           addressCountry: "US",
         },
@@ -234,7 +249,7 @@ export default async function NeighborhoodPage({
           },
           author: {
             "@type": "Person",
-            name: `${fullStateName} ${ContactInfo.service}`,
+            name: `${stateName[abbrevations.toUpperCase()]} ${ContactInfo.service}`,
           },
         },
         telephone: ContactInfo.No,
@@ -248,17 +263,17 @@ export default async function NeighborhoodPage({
       {
         "@context": "https://schema.org",
         "@type": "Product",
-        name: `${ContactInfo.service} in ${ContentData?.name}, ${stateAbbreviation}`,
+        name: ` ${ContactInfo?.name}`,
         brand: {
           "@type": "Brand",
-          name: `${ContactInfo.service} ${ContentData?.name}, ${stateAbbreviation} Pros`,
+          name: `${ContactInfo.service} ${ContentData?.name}, ${abbrevations.toUpperCase()} Pros`,
         },
         description: `${ContentData?.metaDescription
           ?.split("[location]")
           .join(ContentData?.name || ContactInfo.location)
           ?.split("[phone]")
           .join(ContactInfo.No)}`,
-        url: `https://${State}.${ContactInfo.host}/${neighborhood}`,
+        url: `https://${ContactInfo.host}/areas-we-serve/${State}/${neighborhood}/`,
         aggregateRating: {
           "@type": "AggregateRating",
           reviewCount: 7,
@@ -336,7 +351,7 @@ export default async function NeighborhoodPage({
                 <p>
                   Professional Residential {ContactInfo.service} in{" "}
                   {ContentData?.name}, {parentCityData?.name || State},{" "}
-                  {stateAbbreviation}.
+                  {State.split("-").pop()?.toUpperCase()}.
                 </p>
               </div>
               <div className="rounded-lg bg-gray-100 p-4 shadow-lg">
@@ -346,7 +361,7 @@ export default async function NeighborhoodPage({
                 <p>
                   Commercial {ContactInfo.service} in {ContentData?.name},{" "}
                   {parentCityData?.name || State},{" "}
-                  {stateAbbreviation}.
+                  {State.split("-").pop()?.toUpperCase()}.
                 </p>
               </div>
             </div>
@@ -367,6 +382,9 @@ export default async function NeighborhoodPage({
         {/* Service */}
         <div className="mt-14 md:mt-20">
           <Service value={State} />
+          <Types
+            value={`${ContentData?.name}, ${abbrevations.toUpperCase()}`}
+          />
         </div>
         {/* Service */}
         {/* Needs */}
@@ -401,6 +419,9 @@ export default async function NeighborhoodPage({
           </div>
         ) : null}
         {/* Needs  */}
+        <div className="mt-10">
+          <Affordable />
+        </div>
         {/* Section 4 */}
         {ContentData.h5 && (
           <div className="mt-14 grid grid-cols-1  gap-10 px-6 md:mt-28 md:grid-cols-2 md:px-24 ">
@@ -624,7 +645,7 @@ export default async function NeighborhoodPage({
                   .map((item: string) => (
                     <div className="" key={item}>
                       <Link
-                        href={`/areas-we-serve/${parentCityData.slug}/${
+                        href={`/areas-we-serve/${State}/${
                           item
                             .trim()
                             .toLowerCase()
@@ -646,12 +667,14 @@ export default async function NeighborhoodPage({
         {/* FAQ */}
         {ContentData?.faq ? (
           <Faq
-            value={`${ContentData.name}, ${stateAbbreviation}`}
+            data={ContentData?.faq}
+            value={`${ContentData.name}, ${abbrevations.toUpperCase()}`}
           />
         ) : null}
+
         {/* FAQ */}
         {/* Reviews */}
-        <ReviewWidget />
+        <ReviewWidget value={State} />
         {/* Reviews */}
         {/* -----------------------------------------Map End---------------------------- */}
         <div className="block w-full">
@@ -660,7 +683,7 @@ export default async function NeighborhoodPage({
               title="Google Map"
               height="350"
               width={"100%"}
-              src={`https://maps.google.com/maps?q=${ContentData?.slug}+${stateAbbreviation}+USA&t=&z=12&ie=UTF8&iwloc=&output=embed`}
+              src={`https://maps.google.com/maps?q=${ContentData?.slug}+USA&t=&z=7&ie=UTF8&iwloc=&output=embed`}
               loading="lazy"
             ></iframe>
           </div>
@@ -671,8 +694,24 @@ export default async function NeighborhoodPage({
   );
 }
 
+export async function generateStaticParams() {
+  let content: any = {};
+  try {
+    const data = await getSubdomainData();
+    if (data && data.subdomains) {
+      // Convert array back to object with slug as key
+      content = data.subdomains.reduce((acc: any, item: any) => {
+        if (item.slug) {
+          acc[item.slug] = item;
+        }
+        return acc;
+      }, {});
+    }
+  } catch (e) {
+    // Fallback to static content if API fails
+    content = subdomainContent.subdomainData;
+  }
 
-export function generateStaticParams() {
   const cityData: any = content;
   const neighborhoods: any[] = [];
 
@@ -682,10 +721,12 @@ export function generateStaticParams() {
       const cityNeighborhoods = city.neighbourhoods
         .split("|")
         .map((neighName: string) => ({
+          State: city.slug,
           neighborhood: neighName.trim().toLowerCase().replace(/\s+/g, "-").replace(/\.+$/, ""),
         }));
       neighborhoods.push(...cityNeighborhoods);
     }
   });
+
   return neighborhoods;
 }

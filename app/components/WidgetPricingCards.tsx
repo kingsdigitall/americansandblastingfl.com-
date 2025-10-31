@@ -119,7 +119,7 @@ const WidgetPricingCards = () => {
                 </ul>
               </div>
               <div className="w-full">
-                <Link id='cta-id' href={`tel:${ContactInfo.tel}`}>
+                <Link  href={`tel:${ContactInfo.tel}`}>
                   <button className="flex w-full items-center justify-center rounded-md bg-main px-10 py-2 font-bold text-white transition-colors duration-200 ease-in-out hover:scale-110">
                     <MdOutlinePhoneCallback className='text-2xl'/>
                     Call Now

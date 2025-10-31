@@ -1,17 +1,22 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/Navbar";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import Footer from "./components/Footer";
-import CallButtonMobile from "./components/Widgets/CallButtonMobile";
+import CallMobileButton from "./components/Widgets/CallMobileButton";
+// import ContactInfo from "@/components/Content/ContactInfo.json";
+
+import contactContent from "@/app/Data/content";
+import Navbar from "./components/Navbar";
+
+const ContactInfo: any = contactContent.contactContent;
 const inter = DM_Sans({
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
   other: {
-    'google-site-verification': "",
+    "google-site-verification": "",
   },
 };
 
@@ -22,14 +27,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <GoogleAnalytics gaId="" />
-      <GoogleTagManager gtmId="GTM-PVTFL8K8" />
-      <body className={`w-full max-w-[2100px] mx-auto  ${inter.className}`}>
+      <head>
+        <meta name="robots" content = "index"/>
+        <link rel="icon" href={ContactInfo.favicon} />
+      </head>
+      <GoogleAnalytics gaId={ContactInfo.googleAnalytics} />
+      {/* <GoogleTagManager gtmId="" /> */}
+      <body className={`mx-auto w-full max-w-[1910px] ${inter.className}`}>
         <Navbar/>
-        <div className="bg-white ">
-          {children}
-        </div>
-        <CallButtonMobile/>
+        <div className="bg-white">{children}</div>
+        <CallMobileButton />
         <Footer />
       </body>
     </html>

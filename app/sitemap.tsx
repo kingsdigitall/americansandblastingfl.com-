@@ -1,60 +1,72 @@
 import { MetadataRoute } from "next";
-import CityData1 from "@/public/City.json";
 import contentData from "@/components/Content/ContactInfo.json";
-import data from "@/components/Content/subDomainUrlContent.json";
-import serviceData from "@/components/Content/serviceWidgetContent.json";
+// Removed import of data from subDomainUrlContent.json
+import serviceData from "@/components/Content/servicePage.json";
+import typesData from "@/components/Content/typesPage.json";
+import { headers } from "next/headers";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+// Define the async function to fetch subdomain data
+async function getSubdomainData() {
+  const headersList = headers();
+  const proto: any = headersList.get("x-forwarded-proto") || "http";
+  const host = headersList.get("host");
+  const baseUrl = `${proto}://${host}`;
+  const res = await fetch(`${baseUrl}/api/subdomains`, { cache: "no-store" });
+  return res.json().catch(() => ({}));
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const BaseUrl = contentData.baseUrl;
-  const CityData: any = CityData1;
-  const SubDomain: any = Object.keys(data);
-  const ServiceSlug: any = serviceData.lists.map((item: any) => item.slug);
-  const SubDomainURL = SubDomain.map((location: any) => ({
-    url: `${contentData.baseUrl}areas-we-serve/${location}`,
+  // Fetch service slug data
+  const ServiceSlug: any = serviceData.serviceData.lists.map((item: any) => item.slug);
+  const TypesSlug: any = typesData.serviceData.lists.map((item: any) => item.slug);
+  
+  // Fetch subdomain data asynchronously
+  const subdomainData = await getSubdomainData();
+  const subdomains = subdomainData?.subdomains || [];
+  
+  // Generate city URLs
+  const SubDomainURL = subdomains.map((city: any) => ({
+    url: `${contentData.baseUrl}areas-we-serve/${city.slug}/`,
     lastModified: new Date(),
     changeFrequency: "weekly",
     priority: 1,
   }));
+  
+  // Generate neighborhood URLs
+  const NeighborhoodURLs: any[] = [];
+  subdomains.forEach((city: any) => {
+    if (city.neighbourhoods) {
+      const neighborhoods = city.neighbourhoods.split("|");
+      neighborhoods.forEach((neighborhood: string) => {
+        const formattedNeighborhood = neighborhood
+          .trim()
+          .toLowerCase()
+          .replace(/\.+$/, "") // remove trailing dots
+          .replace(/\s+/g, "-"); // replace spaces with hyphens
+        
+        NeighborhoodURLs.push({
+          url: `${contentData.baseUrl}areas-we-serve/${city.slug}/${formattedNeighborhood}/`,
+          lastModified: new Date(),
+          changeFrequency: "weekly",
+          priority: 0.9,
+        });
+      });
+    }
+  });
+  
   const ServiceURL = ServiceSlug.map((location: any) => ({
-    url: `${contentData.baseUrl}services/${location}`,
+    url: `${contentData.baseUrl}services/${location}/`,
     lastModified: new Date(),
     changeFrequency: "weekly",
     priority: 0.7,
   }));
-
-  // Generate neighborhood URLs
-  const NeighborhoodURLs: any[] = [];
- Object.values(data).map((city: any) => {
-  if (city.neighbourhoods) {
-    const neighborhoods = city.neighbourhoods.split("|");
-    neighborhoods.forEach((neighborhood: string) => {
-      const formattedNeighborhood = neighborhood
-        .trim()
-        .toLowerCase()
-        .replace(/\.+$/, "")
-        .replace(/\s+/g, "-");
-
-      const url = `${contentData.baseUrl}areas-we-serve/${city.slug}/${formattedNeighborhood}/`;
-
-      // Debug for invalid URLs
-      if (/[&<>]/.test(url)) {
-        console.log("⚠️ Invalid character in URL:", url);
-      }
-      if (url.includes("undefined")) {
-        console.log("⚠️ Undefined value in URL:", url);
-      }
-
-      NeighborhoodURLs.push({
-        url: encodeURI(url),
-        lastModified: new Date(),
-        changeFrequency: "weekly",
-        priority: 0.9,
-      });
-    });
-  }
-});
-
-
+  const TypesURL = TypesSlug.map((location: any) => ({
+    url: `${contentData.baseUrl}services/${location}/`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
   // console.log(ServiceSlug);
 
   return [
@@ -65,32 +77,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${contentData.baseUrl}about`,
+      url: `${contentData.baseUrl}about/`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${contentData.baseUrl}contact`,
+      url: `${contentData.baseUrl}contact/`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${contentData.baseUrl}our-brands`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${contentData.baseUrl}services`,
+      url: `${contentData.baseUrl}services/`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     ...ServiceURL,
+    ...TypesSlug,
     {
-      url: `${contentData.baseUrl}areas-we-serve`,
+      url: `${contentData.baseUrl}areas-we-serve/`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
